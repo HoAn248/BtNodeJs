@@ -31,23 +31,13 @@ const userSchema = new schema({
         required: true,
         unique: true,
         trim: true,
-        lowercase: true,
-        // validate(value) {
-        //     if (!validator.isEmail(value)) {
-        //         throw new Error('Invalid email')
-        //     }
-        // }
+        lowercase: true
     },
     password: {
         type: String,
         required: true,
         trim: true,
         minlength: 8,
-        // validate(value) {
-        //     if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
-        //         throw new Error('Mật khẩu phải bao gồm ít nhát 1 chữ cái và 1 chữ số')
-        //     }
-        // },
         private: true
     }
 
@@ -57,11 +47,6 @@ const userSchema = new schema({
     })
 const UserSchema = mongoose.model('UserSchema', userSchema)
 UserSchema.find({})
-// UserSchema.create({
-//     username: 'An',
-//     email: 'hda24082002@gmail.com',
-//     password: 'ducAnho123~'
-// })
 const product = new schema({
     name: {
         type: String,
@@ -111,15 +96,6 @@ const product = new schema({
     }
 )
 const Product = mongoose.model('Products', product)
-// Product.create({
-//     name:"ASUS",
-//     RAM: 8,
-//     maxRAM: 8
-// })
-// Product.find({})
-// .then(data =>{
-//     console.log(data);
-// })
 const receipts = new schema({
     buyerId: mongoose.Types.ObjectId,
     productId: mongoose.Types.ObjectId,
@@ -136,9 +112,6 @@ const receipts = new schema({
     collection: 'Receipts'
 })
 const Receipts = mongoose.model('Receipts', receipts)
-// Receipts.create({
-//     payInMethod: 'credit card',
-// })
 
 const buyer = new schema({
     firstName: String,
@@ -254,5 +227,9 @@ Receipts.find({})
             console.log(e);
         }
     })
+})
+Product.find({$or:[{$and:[{name:'ASUS'},{RAM:8}]},{$and:[{name:'LenOVO'},{RAM:16}]}]})
+.then(data => {
+    console.log('Hiển thị những sản phẩm ASUS có 8Gb RAM hoặc LENOVO có 16Gb RAM',data);
 })
 app.listen(PORT)
